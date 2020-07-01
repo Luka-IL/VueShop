@@ -1,30 +1,46 @@
 <template>
   <div>
     <h2>Basket</h2>
-      <ul class="collection">
-        <li class="collection-item avatar"
-            v-for= "(item, index) in BASKET_ITEMS"
-            :key= "index"
-            :quantity='1'
-          >
-          <img src="images/yuna.jpg" alt="" class="circle">
-          <span class="title">{{item.name}}</span>
-          <p>Price: {{item.price}}</p>
-          <div class="first-content">Qua={{item.quantity}}</div>
-        </li>
-      </ul>
+      <BasketItem 
+        v-for= "(basketItem, index) in BASKET_ITEMS"
+        :key='index'
+        v-bind:basketItem="basketItem"
+        @deleteItem='deleteItem(index)'
+        @minusQuantity='minusQuantity(index)'
+        @plusQuantity='plusQuantity(index)'
+      />
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import BasketItem from '@/components/BasketItem.vue'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
   name:'basket',
   computed: {
     ...mapGetters ([
       'BASKET_ITEMS'
-    ])
+    ]),
+  },
+  methods: {
+    ...mapActions ([
+        'DELETE_FROM_BASKET',
+        'PLUS_QUANTITY',
+        'MINUS_QUANTITY'
+    ]),
+    deleteItem(index){
+      this.DELETE_FROM_BASKET(index)
+    },
+    plusQuantity(index){
+      this.PLUS_QUANTITY(index)
+    },
+    minusQuantity(index){
+      this.MINUS_QUANTITY(index)
+    },
+  },
+  components: {
+    BasketItem
   }
 }
 </script>

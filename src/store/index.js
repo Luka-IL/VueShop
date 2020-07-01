@@ -19,17 +19,26 @@ export default new Vuex.Store({
       for (let i = 0; i < stage.basket.length; i++){
         if (stage.basket[i].article === product.article){
             flag = false
+            stage.basket[i].quantity++
           }
-        }
-        if (flag === false) {
-          product.quantity++
         }
         if (flag === true) {
           stage.basket.push(product);
+          product.quantity = 1
         }
       } else {
         stage.basket.push(product)
+        product.quantity = 1
       }
+    },
+    DELETE_ITEM: (stage, index) => {
+      stage.basket.splice(index, 1)
+    },
+    PLUS_ONE_QUANTITY: (stage, index) => {
+      stage.basket[index].quantity++
+    },
+    MINUS_ONE_QUANTITY: (stage, index) => {
+      stage.basket[index].quantity--
     }
   },
   actions: {
@@ -44,6 +53,15 @@ export default new Vuex.Store({
     },
     ADD_TO_BASKET({commit}, product) {
       commit('ADD_ITEM', product);
+    },
+    DELETE_FROM_BASKET({commit}, index) {
+      commit('DELETE_ITEM', index)
+    },
+    PLUS_QUANTITY({commit}, index) {
+      commit('PLUS_ONE_QUANTITY', index)
+    },
+    MINUS_QUANTITY({commit}, index) {
+      commit('MINUS_ONE_QUANTITY', index)
     }
   },
   getters: {

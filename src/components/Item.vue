@@ -23,9 +23,6 @@ export default{
             this.$emit('pushBasket', this.product_data)
         }
     },
-    mounted() {
-        this.$set(this.product_data, 'quantity', 1)
-    }
 }
 </script>
 
